@@ -88,6 +88,7 @@ class LeagueController extends Controller
 
 
 
+
         $lastGame = Game::where('liga_id', $league->id)->where('start_datum', '<', date('Y-m-d'))->orderBy('start_datum', 'desc')->take(1)->get();
         // dd($matchResponse->json()['events']);
         // dd($lastGame[0]['start_datum']);
