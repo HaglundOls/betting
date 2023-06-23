@@ -1,0 +1,118 @@
+:root{
+    --gunmetal: #303841ff;
+    --charcoal: #3a4750ff;
+    --jonquil: #f6c90eff;
+    --lapis-lazuli: #0d63a5ff;
+    --antiflash-white: #eeeeeeff;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a, p, h1, h2, h3, h4, span, button{
+    font-family: 'Montserrat';
+    color: var(--antiflash-white);
+}
+
+body{
+    background-color: var(--charcoal);
+}
+
+.container{
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.sportsUpper{
+    width: 60%;
+    margin: 0 auto;
+}
+
+#sportsHeader{
+    text-align: center;
+}
+
+.betsBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.sportsBoxes{
+    display: flex;
+    justify-content: space-around;
+}
+
+.sportBox >*{
+    text-decoration: none;
+    color: var(--antiflash-white)
+}
+
+.games{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 5px;
+    outline: 3px solid gray;
+    width: 250px;
+    height: 100px;
+}
+
+.gamesUpper{
+    display: flex;
+    justify-content: space-around;
+}
+
+.gamesLower{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.bettingForm{
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.bettingForm input{
+    width: 30%;
+}
+
+.leagueLinks{
+    width: 65%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 auto;
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.leagueLinks >* {
+    background-color: var(--charcoal);
+    border: 2px solid #4F616E;
+    flex-basis: calc(25% - 20px); /* 25% minus 20px for margin */
+    margin: 10px;
+    text-decoration: none;
+    color: var(--antiflash-white);
+    font-size: 20px ;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85px;
+    width: 150px;
+}
+
+.leagueLinks >*:hover {
+    background-color: gray;
+    cursor: pointer;
+}

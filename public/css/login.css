@@ -1,0 +1,26 @@
+:root{
+    --gunmetal: #303841ff;
+    --charcoal: #3a4750ff;
+    --jonquil: #f6c90eff;
+    --lapis-lazuli: #0d63a5ff;
+    --antiflash-white: #eeeeeeff;
+}
+
+.loginButtons{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.openLogin{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.loginButton{
+    outline: 1px solid var(--jonquil);
+    background-color: var(--gunmetal);
+    padding:12px;
+    cursor:pointer;
+}
