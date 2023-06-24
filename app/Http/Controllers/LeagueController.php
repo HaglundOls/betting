@@ -67,11 +67,6 @@ class LeagueController extends Controller
                 $matchResponse = $forge->send($matchRequest);
             }
 
-            // dd($matchResponse->body());
-            // if (!$matchResponse->body()) {
-            //     return view('start', ['league' => $league, 'foundGames' => false]);
-            // }
-
             if ($matchResponse->body()) {
                 $leagueData = $matchResponse->json()['events'];
                 // dd($leagueData);
