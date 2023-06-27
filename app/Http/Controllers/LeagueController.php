@@ -52,17 +52,19 @@ class LeagueController extends Controller
     public function show(League $league)
     {
         $upcomingGames = Game::where('liga_id', $league->id)->whereNull('match_klar')->where('start_datum', '>=', date('Y-m-d'))->orderBy('start_datum', 'asc')->take(5)->get();
-        $sport = $league::where('id', $league->id)->value('sport');
-        $leagueArray = League::where('id', $league->id)->get()->toArray()[0];
+        $sport = League::where('id', $league->id)->value('sport');
+        $leagueArray = League::where('id', $league->id)->get()->toArray();
+        $leagueArray = $leagueArray[0];
         $forge = new RapidApi();
 
-        if (count($upcomingGames) < 4) {
+
+        if (count($league->upcomingGames()->get()) < 4) {
+            dd('hej');
             if ($sport == 'soccer') {
                 $matchRequest = new SoccerNextMatches($leagueArray['id'], $leagueArray['säsong_id']);
                 $matchResponse = $forge->send($matchRequest);
             } elseif ($sport == 'hockey') {
                 $leagueArray = League::where('id', $league->id)->get()->toArray()[0];
-                $forge = new RapidApi();
                 $matchRequest = new HockeyNextMatches($leagueArray['id'], $leagueArray['säsong_id']);
                 $matchResponse = $forge->send($matchRequest);
             }
@@ -88,23 +90,21 @@ class LeagueController extends Controller
         // dd($matchResponse->json()['events']);
         // dd($lastGame[0]['start_datum']);
 
-        $playedGames = Game::where('liga_id', $league->id)
-            ->where('start_datum', '<', date('Y-m-d'))
-            ->whereNull('match_klar')
-            ->get()->toArray();
-        // dd($playedGames);
+        $playedGames = $league->finishedGames($league->id);
 
-            foreach($playedGames as $item){
-                $game_id = $item['match_id'];
-                $matchRequest = new SoccerMatch($game_id);
-                $matchResponse = $forge->send($matchRequest);
-                $data = ($matchResponse->json()['event']);
-                Game::updateOrCreate(
-                    ['match_id' => $data['id']],
-                    ['hemma_poäng' => $data['homeScore']['current'], 'borta_poäng' => $data['awayScore']['current']]
-                    // ['hemma_lag' => $item['homeTeam']['name'], 'borta_lag' => $item['awayTeam']['name'], 'liga_id' => $item['tournament']['uniqueTournament']['id'], 'start_datum' => gmdate("Y-m-d", $item['startTimestamp']), 'start_tid' => gmdate("H:i:s", $item['startTimestamp'])]
-                );
-            }
+        foreach ($playedGames as $item) {
+            $game_id = $item['match_id'];
+            $matchRequest = new SoccerMatch($game_id);
+            $matchResponse = $forge->send($matchRequest);
+            // dd($matchResponse->json()['event']);
+            $data = ($matchResponse->json());
+            $data = $data['event'];
+            Game::updateOrCreate(
+                ['match_id' => $data['id']],
+                ['hemma_poäng' => $data['homeScore']['current'], 'borta_poäng' => $data['awayScore']['current']]
+                // ['hemma_lag' => $item['homeTeam']['name'], 'borta_lag' => $item['awayTeam']['name'], 'liga_id' => $item['tournament']['uniqueTournament']['id'], 'start_datum' => gmdate("Y-m-d", $item['startTimestamp']), 'start_tid' => gmdate("H:i:s", $item['startTimestamp'])]
+            );
+        }
 
         // if (!empty($playedGames)) {
         //     // dd('hej');
