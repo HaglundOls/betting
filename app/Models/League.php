@@ -16,7 +16,7 @@ class League extends Model
     }
 
     public function upcomingGames(){
-        return $this->games()->whereNull('match_klar')->where('start_datum', '>=', date('Y-m-d'))->orderBy('start_datum', 'asc')->take(5);
+        return $this->games()->whereNull('match_klar')->where('start_datum', '>=', date('Y-m-d'))->orderBy('start_datum', 'asc')->take(7);
     }
 
     public function finishedGames($id){
